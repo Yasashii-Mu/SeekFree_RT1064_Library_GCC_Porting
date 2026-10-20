@@ -1,0 +1,20 @@
+# Local Python environment and caches
+.pyocd-venv/
+__pycache__/
+
+# GCC/CMake build products
+Project/GCC/build/
+Project/GCC/debug/
+Project/GCC/release/
+Project/GCC/CMakeFiles/
+Project/GCC/CMakeCache.txt
+Project/GCC/Makefile
+Project/GCC/cmake_install.cmake
+Project/GCC/compile_commands.json
+Project/GCC/build_log.txt
+Project/GCC/output.map
+
+# Editor/OS temporary files
+*.swp
+*~
+.DS_Store

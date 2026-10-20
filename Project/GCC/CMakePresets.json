@@ -1,0 +1,30 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "ubuntu-arm-debug",
+      "displayName": "Ubuntu · ARM GCC · Debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build",
+      "environment": {
+        "ARMGCC_DIR": "/usr"
+      },
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/armgcc.cmake",
+        "CMAKE_BUILD_TYPE": "debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ubuntu-arm-debug",
+      "configurePreset": "ubuntu-arm-debug"
+    }
+  ]
+}

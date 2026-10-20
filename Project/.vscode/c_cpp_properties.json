@@ -1,18 +1,27 @@
 {
-    "configurations": [
-        {
-            "name": "Mac",
-            "includePath": [
-                "${workspaceFolder}/**"
-            ],
-            "defines": [],
-            "macFrameworkPath": [],
-            "compilerPath": "/usr/local/Caskroom/gcc-arm-embedded/10-2020-q4-major/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-arm"
-            // "compileCommands": "${workspaceFolder}/GCC/build/compile_commands.json",
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "Linux ARM Cortex-M7",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/../Libraries/**"
+      ],
+      "defines": [
+        "CPU_MIMXRT1064DVL6A",
+        "DEBUG"
+      ],
+      "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+      "compilerArgs": [
+        "-mcpu=cortex-m7",
+        "-mthumb",
+        "-mfpu=fpv5-d16",
+        "-mfloat-abi=hard"
+      ],
+      "cStandard": "c99",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-gcc-arm",
+      "compileCommands": "${workspaceFolder}/GCC/build/compile_commands.json"
+    }
+  ],
+  "version": 4
 }

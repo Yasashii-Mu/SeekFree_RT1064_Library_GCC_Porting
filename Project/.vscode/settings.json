@@ -1,5 +1,14 @@
 {
-  "cortex-debug.armToolchainPath": "/usr/local/Caskroom/gcc-arm-embedded/10-2020-q4-major/gcc-arm-none-eabi-10-2020-q4-major/bin",
-  "cortex-debug.JLinkGDBServerPath": "/Applications/SEGGER/JLink_V700a/JLinkGDBServerCLExe"
-  // "cmake.sourceDirectory": "${workspaceFolder}/GCC",
+  "cortex-debug.armToolchainPath": "/usr/bin",
+  "cortex-debug.gdbPath": "/usr/bin/gdb-multiarch",
+  "cortex-debug.pyocdPath": "${workspaceFolder}/../.pyocd-venv/bin/pyocd",
+  "cmake.sourceDirectory": "${workspaceFolder}/GCC",
+  "cmake.buildDirectory": "${workspaceFolder}/GCC/build",
+  "cmake.configureOnOpen": false,
+  "cmake.exportCompileCommandsFile": true,
+  "git.openRepositoryInParentFolders": "always",
+  "git.autofetch": true,
+  "git.confirmSync": true,
+  "git.enableSmartCommit": false,
+  "cmake.useCMakePresets": "always"
 }

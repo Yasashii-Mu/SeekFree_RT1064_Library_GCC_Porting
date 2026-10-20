@@ -41,7 +41,7 @@
 #include "zf_iomuxc.h"
 #include "zf_csi.h"
 #include "fsl_cache.h"
-#include "seekfree_iic.h"
+#include "SEEKFREE_IIC.h"
 #include "SEEKFREE_SCC8660_CSI.h"
 #include "SEEKFREE_SCC8660.h"
 

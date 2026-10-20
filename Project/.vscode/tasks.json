@@ -1,12 +1,59 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
   "version": "2.0.0",
   "tasks": [
     {
       "label": "build",
-      "type": "shell",
-      "command": "./GCC/build.sh"
+      "type": "process",
+      "command": "${workspaceFolder}/GCC/build.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/GCC"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "buildfull",
+      "type": "process",
+      "command": "${workspaceFolder}/GCC/buildfull.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/GCC"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "flash",
+      "type": "process",
+      "command": "${workspaceFolder}/GCC/flash.sh",
+      "dependsOn": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/GCC"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "flash (不重新编译)",
+      "type": "process",
+      "command": "${workspaceFolder}/GCC/flash.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/GCC"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "检查下载器",
+      "type": "process",
+      "command": "${workspaceFolder}/../.pyocd-venv/bin/pyocd",
+      "args": [
+        "list"
+      ],
+      "problemMatcher": []
     }
   ]
 }

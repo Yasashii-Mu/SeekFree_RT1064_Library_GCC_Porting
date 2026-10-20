@@ -1,16 +1,4 @@
-#!/bin/sh
-
-pushd "$(dirname "$0")"
-
-. ./env.sh
-
-if [ -d "CMakeFiles" ];then rm -rf CMakeFiles; fi
-if [ -f "Makefile" ];then rm -f Makefile; fi
-if [ -f "cmake_install.cmake" ];then rm -f cmake_install.cmake; fi
-if [ -f "CMakeCache.txt" ];then rm -f CMakeCache.txt; fi
-
-cmake -DCMAKE_TOOLCHAIN_FILE="armgcc.cmake" -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug  .
-
-make -j 2>&1 | tee build_log.txt
-
-popd
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/build.sh" --clean-first

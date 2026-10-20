@@ -6,13 +6,94 @@
 
 关于逐飞 RT1064 RT-Thread 库的移植项目请参考其项目主页：[hilookas/SeekFree_RT1064_RTThread_Library_GCC_Porting | GitHub](https://github.com/hilookas/SeekFree_RT1064_RTThread_Library_GCC_Porting)
 
-该项目目前适用于 MacOS。Linux 与 Windows 下类似，可以自行尝试。
+该项目目前适用于 MacOS 与 Linux（Ubuntu 已验证）。Windows 下类似，可以自行尝试。
 
-该项目目前适用于 JLink。使用 CMSIS-DAP 下载器（使用 pyOCD）或者 OpenSDA 调试步骤类似，可以自行尝试。
+当前默认配置使用逐飞 CMSIS-DAP 下载器和 pyOCD；JLink、OpenSDA 的调试步骤类似，可自行切换。
 
-## 快速入门
+## 快速入门（Linux + CMSIS-DAP 下载器）
 
-## 安装 JLink 驱动和实用程序
+在 Ubuntu 上验证过的流程，使用逐飞 CMSIS-DAP 下载器 + pyOCD：
+
+### 1. 安装工具链
+
+```bash
+sudo apt install gcc-arm-none-eabi cmake make gdb-multiarch python3-venv libusb-1.0-0
+```
+
+### 2. 安装 pyOCD（在项目根目录执行）
+
+```bash
+python3 -m venv .pyocd-venv
+.pyocd-venv/bin/pip install pyocd
+```
+
+插入下载器后检查连接。新版 pyOCD 已内置 `mimxrt1064` 烧录算法：
+
+```bash
+.pyocd-venv/bin/pyocd list
+.pyocd-venv/bin/pyocd list --targets | grep mimxrt1064
+```
+
+若 `pyocd list` 提示找不到设备，通常是 USB 权限问题。为逐飞 CMSIS-DAP 添加 udev 规则：
+
+```bash
+sudo tee /etc/udev/rules.d/99-seekfree-dap.rules <<'RULES'
+SUBSYSTEM=="usb", ATTR{idVendor}=="c251", ATTR{idProduct}=="f00a", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="c251", ATTRS{idProduct}=="f00a", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+RULES
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+
+### 3. 编译（在 `Project/GCC` 目录执行）
+
+```bash
+./buildfull.sh   # 初次完整编译
+./build.sh       # 之后增量编译；编译失败时不会继续烧录
+```
+
+### 4. 一键烧录并运行
+
+确认 CMSIS-DAP 下载器已连接，然后执行：
+
+```bash
+./flash.sh
+```
+
+脚本会完成以下操作：
+
+1. 使用 `pyocd flash` 将 `debug/tutorial.elf` 写入 RT1064 外部 Flash；
+2. 使用 `pyocd reset` 复位芯片并运行；
+3. 下载器未连接、没有权限或固件不存在时给出明确错误。
+
+可用环境变量调整烧录参数：
+
+```bash
+PYOCD_UID=0123456789 ./flash.sh                         # 多下载器时选择序列号
+PYOCD_TARGET=mimxrt1064dvl6a ./flash.sh                  # 使用 NXP pack 中的精确型号
+PYOCD_FREQUENCY=500k ./flash.sh                          # 下载线较长时降低 SWD 时钟
+```
+
+### 5. 在 VSCode 中烧录
+
+用 VSCode 打开 `Project` 目录，按 `Ctrl+Shift+P`，选择
+`Tasks: Run Task`，再选择：
+
+- `flash`：先重新编译，成功后自动烧录并复位；
+- `flash (不重新编译)`：直接烧录当前已有的 `debug/tutorial.elf`。
+
+需要源码调试时，安装 `marus25.cortex-debug` 插件后按 F5 即可
+（`launch.json` 已配置 pyOCD，Ubuntu 使用 `/usr/bin/gdb-multiarch`）。
+
+工程的 CMake 缓存和编译数据库放在 `Project/GCC/build`，固件仍输出到
+`Project/GCC/debug/tutorial.elf`。虚拟环境和编译产物已加入 `.gitignore`。
+
+日常操作及 GitHub 更新/上传方法见 [Ubuntu 使用说明](Ubuntu使用说明.md)。
+
+## 原始 macOS/JLink 配置参考
+
+以下为上游原始文档。Ubuntu + CMSIS-DAP 请使用上面的快速入门；本工程已自动识别 GCC，并配置 pyOCD。
+
+### 安装 JLink 驱动和实用程序
 
 在官网上下载安装。
 

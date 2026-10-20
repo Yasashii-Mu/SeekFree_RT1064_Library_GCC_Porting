@@ -24,7 +24,7 @@
 
 #include "fsl_device_registers.h"
 #include "fsl_clock.h"
-#include "EVKMIMXRT1064_FLEXSPI_NOR_CONFIG.h"
+#include "evkmimxrt1064_flexspi_nor_config.h"
 #include "fsl_rtwdog.h"
 #include "fsl_wdog.h"
 #include <string.h>

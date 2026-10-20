@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "Project"
+    }
+  ],
+  "settings": {
+    "git.openRepositoryInParentFolders": "always"
+  }
+}
